@@ -25,8 +25,8 @@ namespace API.Data
             query = query.Where(x => x.UserName != userParams.CurrentUserName);
             query = query.Where(x => x.Gender == userParams.Gender);
 
-            var minDoB = DateTime.Today.AddYears(-userParams.MaxAge - 1);
-            var maxDoB = DateTime.Today.AddYears(-userParams.MinAge);
+            var minDoB = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
+            var maxDoB = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
 
             query = query.Where(x => x.DateOfBirth >= minDoB && x.DateOfBirth <= maxDoB);
 
