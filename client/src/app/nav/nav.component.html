@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
     <div class="container">
         <a class="navbar-brand" routerLink="/" routerLinkActive="active">Dating App</a>
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav me-auto">
             <ng-container *ngIf="accountService.currentUser$ | async">
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
@@ -23,10 +23,10 @@
 
         <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
             <img class="" src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.userName}}">
-            <a class="dropdown-toggle text-light ml-2" dropdownToggle>
+            <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>
                 Wellcome {{user.knownAs || user.userName | titlecase}}
             </a>
-            <div class="dropdown-menu mt-3" *dropdownMenu>
+            <div class="dropdown-menu mt-2" *dropdownMenu>
                 <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" (click)="logout()">Logout</a>
@@ -34,11 +34,11 @@
         </div>
 
         <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm"
-            class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
-            <input name="userName" [(ngModel)]="model.userName" class="form-control mr-sm-2" type="text"
+            class="d-flex mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
+            <input name="userName" [(ngModel)]="model.userName" class="form-control me-sm-2" type="text"
                 placeholder="UserName">
 
-            <input name="password" [(ngModel)]="model.password" class="form-control mr-sm-2" type="password"
+            <input name="password" [(ngModel)]="model.password" class="form-control me-sm-2" type="password"
                 placeholder="Password">
 
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
