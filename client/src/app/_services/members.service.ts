@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { of, scheduled, zip } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Member } from '../_models/Member';
+import { Member } from '../_models/member';
 import { PaginatedResult } from '../_models/pagination';
 import { User } from '../_models/user';
-import { UserParams } from '../_models/userparams';
+import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
 import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
 
@@ -17,13 +17,13 @@ export class MembersService {
     baseUrl = environment.apiUrl;
     members: Member[] = [];
     memberCache = new Map();
-    user: User;
-    userParams: UserParams;
+    user!: User | null;
+    userParams!: UserParams;
 
     constructor(private http: HttpClient, private accountService: AccountService) {
         this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
             this.user = user;
-            this.userParams = new UserParams(user);
+            this.userParams = new UserParams(user!);
         });
     }
 
@@ -36,7 +36,7 @@ export class MembersService {
     }
 
     resetUserParams() {
-        this.userParams = new UserParams(this.user);
+        this.userParams = new UserParams(this.user!);
         return this.userParams;
     }
 
@@ -95,7 +95,7 @@ export class MembersService {
         return this.http.post(this.baseUrl + "likes/" + userName, {});
     }
 
-    getLikes(predicate: string, pageNumber, pageSize) {
+    getLikes(predicate: string, pageNumber: any, pageSize: any) {
         let params = getPaginationHeaders(pageNumber, pageSize);
         params = params.append("predicate", predicate);
 

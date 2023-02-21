@@ -11,8 +11,8 @@ import { AccountService } from '../_services/account.service';
 })
 export class RegisterComponent implements OnInit {
     @Output() cancelRegister = new EventEmitter();
-    registerForm: UntypedFormGroup;
-    maxDate: Date;
+    registerForm!: UntypedFormGroup;
+    maxDate!: Date;
     validationErrors: string[] = [];
 
     constructor(private accountServive: AccountService
@@ -43,16 +43,16 @@ export class RegisterComponent implements OnInit {
             confirmPassword: ["", [Validators.required, this.matchValues("password")]]
         });
 
-        this.registerForm.controls.password.valueChanges.subscribe(() => {
-            this.registerForm.controls.confirmPassword.updateValueAndValidity();
+        this.registerForm.controls["password"].valueChanges.subscribe(() => {
+            this.registerForm.controls["confirmPassword"].updateValueAndValidity();
         })
     }
 
 
     matchValues(matchTo: string): ValidatorFn {
         return (control: AbstractControl) => {
-            return control?.value === control?.parent?.controls[matchTo].value ?
-                null : { isMatching: true };
+            const matchControl = (control.parent?.controls as { [key: string]: AbstractControl<any, any> })[matchTo];
+            return control?.value === matchControl.value ? null : { isMatching: true };
         };
     }
 

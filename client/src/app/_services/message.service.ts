@@ -15,7 +15,7 @@ import { getPaginatedResult, getPaginationHeaders } from './PaginationHelper';
 export class MessageService {
     baseUrl = environment.apiUrl;
     hubUrl = environment.hubUrl;
-    private hubConnection: HubConnection;
+    private hubConnection!: HubConnection;
     private messageThreadSource = new BehaviorSubject<Message[]>([]);
     messageThread$ = this.messageThreadSource.asObservable();
 
@@ -39,16 +39,16 @@ export class MessageService {
         });
 
         this.hubConnection.on("UpdatedGroup", (group: Group) => {
-           if (group.connections.some(x => x.userName === otherUserName)) {
-               this.messageThread$.pipe(take(1)).subscribe(messages => { 
-                   messages.forEach(message => { 
-                     if (!message.dateRead) {
-                         message.dateRead = new Date(Date.now());
-                     }
-                   });
-                   this.messageThreadSource.next([...messages]);
-               })
-           }
+            if (group.connections.some(x => x.userName === otherUserName)) {
+                this.messageThread$.pipe(take(1)).subscribe(messages => {
+                    messages.forEach(message => {
+                        if (!message.dateRead) {
+                            message.dateRead = new Date(Date.now());
+                        }
+                    });
+                    this.messageThreadSource.next([...messages]);
+                })
+            }
         });
     }
 
@@ -59,7 +59,7 @@ export class MessageService {
     }
 
 
-    getMessages(pageNumber, pageSize, container) {
+    getMessages(pageNumber: any, pageSize: any, container: any) {
         let params = getPaginationHeaders(pageNumber, pageSize);
         params = params.append("Container", container);
         return getPaginatedResult<Message[]>(this.baseUrl + "messages", params, this.http);
@@ -70,7 +70,7 @@ export class MessageService {
     }
 
     async sendMessage(userName: string, content: string) {
-        return this.hubConnection.invoke("SendMessage", { recipientUserName: userName, content }).catch(error => console.log(error));        
+        return this.hubConnection.invoke("SendMessage", { recipientUserName: userName, content }).catch(error => console.log(error));
     }
 
     deleteMessage(id: number) {

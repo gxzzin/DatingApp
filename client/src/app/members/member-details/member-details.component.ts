@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Member } from 'src/app/_models/Member';
+import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
 import { NgxGalleryAnimation, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { NgxGalleryImage } from '@kolkov/ngx-gallery';
@@ -19,26 +19,26 @@ import { take } from 'rxjs/operators';
     styleUrls: ['./member-details.component.css']
 })
 export class MemberDetailsComponent implements OnInit, OnDestroy {
-    @ViewChild("memberTabs", { static: true }) memberTabs: TabsetComponent;
-    member: Member;
-    galleryOptions: NgxGalleryOptions[];
-    galleryImages: NgxGalleryImage[];
-    activeTab: TabDirective;
+    @ViewChild("memberTabs", { static: true }) memberTabs!: TabsetComponent;
+    member!: Member;
+    galleryOptions!: NgxGalleryOptions[];
+    galleryImages!: NgxGalleryImage[];
+    activeTab!: TabDirective;
     messages: Message[] = [];
-    user: User;
+    user!: User;
 
     constructor(public presence: PresenceService, private route: ActivatedRoute, private messageService: MessageService, private accountService: AccountService, private router: Router) {
-        this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+        this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user!);
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
     ngOnInit(): void {
         this.route.data.subscribe(data => {
-            this.member = data.member;
+            this.member = data["member"];
         });
 
         this.route.queryParams.subscribe(params => {
-            params.tab ? this.selectTab(params.tab) : this.selectTab(0);
+            params["tab"] ? this.selectTab(params["tab"]) : this.selectTab(0);
         });
 
         this.galleryOptions = [

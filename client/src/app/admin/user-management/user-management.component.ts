@@ -10,8 +10,8 @@ import { AdminService } from 'src/app/_services/admin.service';
     styleUrls: ['./user-management.component.css']
 })
 export class UserManagementComponent implements OnInit {
-    users: Partial<User[]>;
-    bsModalRef: BsModalRef;
+    users!: Partial<User[]>;
+    bsModalRef!: BsModalRef;
 
     constructor(private adminService: AdminService,
         private modalService: BsModalService) { }
@@ -35,9 +35,9 @@ export class UserManagementComponent implements OnInit {
             }
         }
         this.bsModalRef = this.modalService.show(RoleModalComponent, config);
-        this.bsModalRef.content.updateSelectedRoles.subscribe(values => {
+        this.bsModalRef.content.updateSelectedRoles.subscribe((values: any) => {
             const rolesToUpdate = {
-                roles: [...values.filter(x => x.checked === true).map(x => x.name)]
+                roles: [...values.filter((x: any) => x.checked === true).map((x: any) => x.name)]
             }
 
             if (rolesToUpdate) {
@@ -49,8 +49,8 @@ export class UserManagementComponent implements OnInit {
     }
 
 
-    private getRolesArray(user) {
-        const roles = [];
+    private getRolesArray(user: any) {
+        const roles: any[] = [];
         const userRoles = user.roles;
         const availableRoles: any[] = [
             { name: "Admin", value: "Admin" },
